@@ -6,7 +6,7 @@ import { LogIn } from "lucide-react";
 
 export default async function Home() {
     const { userId } = await auth();
-    const isAuth = !!userId
+    const isAuth = !!userId;
 
     return (
         <div className="w-screen min-h-screen bg-[conic-gradient(at_left,_var(--tw-gradient-stops))]
