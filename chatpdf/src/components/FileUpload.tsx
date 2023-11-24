@@ -13,7 +13,8 @@ const FileUpload = () => {
     const { mutate, isPending } = useMutation({
         mutationFn: async ({ file_key, file_name }: { file_key: string, file_name: string }) => {
             const response = await axios.post('/api/create-post', {
-                file_key, file_name
+                file_key,
+                file_name
             });
 
             return response.data;
@@ -27,7 +28,7 @@ const FileUpload = () => {
             console.log(acceptedFiles);
             const file = acceptedFiles[0]
 
-            if (file.size > 10 * 1024 * 1024) {
+            if (file.size > 10 * (Math.pow(1024, 2))) {
                 //can't take larger than 10MB of pdf
                 toast.error('File too large')
                 alert('please upload a smaller file');
@@ -67,13 +68,13 @@ const FileUpload = () => {
             )}>
                 <input {...getInputProps()} />
                 {(uploading || isPending) ? (
-                        <React.Fragment>
-                            {/* Loading state */}
-                            <Loader2 className="h-10 w-10 text-blue-500 animate-spin" />
-                            <p className="mt-2 text-sm text-slate-100">
-                                Spilling Tea to GPT...
-                            </p>
-                        </React.Fragment>
+                    <React.Fragment>
+                        {/* Loading state */}
+                        <Loader2 className="h-10 w-10 text-blue-500 animate-spin" />
+                        <p className="mt-2 text-sm text-slate-100">
+                            Spilling Tea to GPT...
+                        </p>
+                    </React.Fragment>
                     ) : (
                         <React.Fragment>
                             <Inbox className="w-10 h-10 text-blue-500" />
