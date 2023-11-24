@@ -1,14 +1,16 @@
 'use client'
-import React from 'react';
+import React, { useState } from 'react';
 import { useDropzone } from "react-dropzone";
-import { Inbox } from "lucide-react";
+import { Inbox, Loader2 } from "lucide-react";
 import { uploadToS3 } from "@/lib/db/s3";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import toast from "react-hot-toast";
+import { toast } from "react-hot-toast";
 
 const FileUpload = () => {
-    const { mutate } = useMutation({
+    const [uploading, setUploading] = useState(false)
+
+    const { mutate, isPending } = useMutation({
         mutationFn: async ({ file_key, file_name }: { file_key: string, file_name: string }) => {
             const response = await axios.post('/api/create-post', {
                 file_key, file_name
@@ -34,6 +36,7 @@ const FileUpload = () => {
             }
 
             try {
+                setUploading(true)
                 const data = await uploadToS3(file);
 
                 if (!data?.file_key || !data.file_name) {
@@ -48,6 +51,9 @@ const FileUpload = () => {
 
             } catch (error) {
                 console.log(error);
+
+            } finally {
+                setUploading(false)
             }
         }
     })
@@ -55,16 +61,28 @@ const FileUpload = () => {
     return (
         <div className="p-2 bg-white rounded-xl">
             <div {...getRootProps({
-               className:'border-dashed border-2 rounded-xl cursor-pointer' +
+                className:'border-dashed border-2 rounded-xl cursor-pointer' +
                    ' bg-gray-50 py-8 flex justify-center items-center flex-col'
-            })}>
+                }
+            )}>
                 <input {...getInputProps()} />
-                <React.Fragment>
-                    <Inbox className="w-10 h-10 text-blue-500" />
-                    <p className="mt-2 text-sm text-slate-400">
-                        Drop PDF Here
-                    </p>
-                </React.Fragment>
+                {(uploading || isPending) ? (
+                        <React.Fragment>
+                            {/* Loading state */}
+                            <Loader2 className="h-10 w-10 text-blue-500 animate-spin" />
+                            <p className="mt-2 text-sm text-slate-100">
+                                Spilling Tea to GPT...
+                            </p>
+                        </React.Fragment>
+                    ) : (
+                        <React.Fragment>
+                            <Inbox className="w-10 h-10 text-blue-500" />
+                            <p className="mt-2 text-sm text-slate-400">
+                                Drop PDF Here
+                            </p>
+                        </React.Fragment>
+                    )
+                }
             </div>
         </div>
     );
