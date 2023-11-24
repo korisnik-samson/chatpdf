@@ -35,6 +35,7 @@ const FileUpload = () => {
 
             try {
                 const data = await uploadToS3(file);
+
                 if (!data?.file_key || !data.file_name) {
                     alert('Something went wrong: EUP-01')
                     return
