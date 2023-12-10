@@ -2,17 +2,20 @@
 import React, { useState } from 'react';
 import { useDropzone } from "react-dropzone";
 import { Inbox, Loader2 } from "lucide-react";
-import { uploadToS3 } from "@/lib/db/s3";
+import { uploadToS3 } from "@/lib/s3";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 const FileUpload = () => {
+    const router: AppRouterInstance = useRouter();
     const [uploading, setUploading] = useState(false)
 
     const { mutate, isPending } = useMutation({
         mutationFn: async ({ file_key, file_name }: { file_key: string, file_name: string }) => {
-            const response = await axios.post('/api/create-post', {
+            const response = await axios.post('/api/create-chat', {
                 file_key,
                 file_name
             });
@@ -29,9 +32,8 @@ const FileUpload = () => {
             const file = acceptedFiles[0]
 
             if (file.size > 10 * (Math.pow(1024, 2))) {
-                //can't take larger than 10MB of pdf
-                toast.error('File too large')
-                alert('please upload a smaller file');
+                //can't take larger than 10MB of pdf, else a subscription
+                toast.error('Sorry, 10MB is my limit')
 
                 return;
             }
@@ -41,13 +43,20 @@ const FileUpload = () => {
                 const data = await uploadToS3(file);
 
                 if (!data?.file_key || !data.file_name) {
-                    alert('Something went wrong: EUP-01')
+                    toast.error('Something went wrong')
+                    console.log('E-10')
                     return
                 }
 
                 mutate(data, {
-                    onSuccess: (data) => { console.log(data) },
-                    onError: (err) => { console.log(err) }
+                    onSuccess: ({ chat_id }) => {
+                        toast.success('Chat created successfully')
+                        router.push(`/chat/${chat_id}`)
+                    },
+                    onError: (err) => {
+                        toast.error('Error creating chat')
+                        console.log(err)
+                    }
                 });
 
             } catch (error) {
@@ -71,14 +80,14 @@ const FileUpload = () => {
                     <React.Fragment>
                         {/* Loading state */}
                         <Loader2 className="h-10 w-10 text-blue-500 animate-spin" />
-                        <p className="mt-2 text-sm text-slate-100">
+                        <p className="mt-2 text-sm text-slate-500">
                             Spilling Tea to GPT...
                         </p>
                     </React.Fragment>
                     ) : (
                         <React.Fragment>
                             <Inbox className="w-10 h-10 text-blue-500" />
-                            <p className="mt-2 text-sm text-slate-400">
+                            <p className="mt-2 text-sm text-slate-500">
                                 Drop PDF Here
                             </p>
                         </React.Fragment>

@@ -3,4 +3,4 @@
 
 # Error keys
 
-* EUP-01 - error uploading pdf file (file_name or file_key are non-existent)
+* E-10: error uploading pdf file (file_name or file_key are non-existent)
