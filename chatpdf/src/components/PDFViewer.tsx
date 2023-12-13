@@ -1,0 +1,12 @@
+import React from 'react'
+import { PDFViewerProps } from "@/types";
+
+const PdfViewer = ({ pdf_url }: PDFViewerProps) => {
+    return (
+        <iframe src={`https://docs.google.com/gview?url=${pdf_url}&embedded=true`}
+            className="w-full h-full">
+        </iframe>
+    );
+}
+
+export default PdfViewer;

@@ -14,6 +14,7 @@ export async function downloadFromS3(file_key: string): Promise<string> {
                     secretAccessKey: process.env.NEXT_PUBLIC_S3_SECRET_ACCESS_KEY!,
                 },
             });
+            
             const params: { Bucket: string, Key: string } = {
                 Bucket: process.env.NEXT_PUBLIC_S3_BUCKET_NAME!,
                 Key: file_key,
