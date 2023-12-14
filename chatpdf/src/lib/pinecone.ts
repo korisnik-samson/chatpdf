@@ -43,7 +43,6 @@ export async function loadS3IntoPinecone(fileKey: string) {
     PineconeUtils.chunkedUpsert(pineconeIndex, vectors, namespace, 10)
     
     return documents[0];
-    //
 }
 
 async function embedDocument(doc: Document): Promise<PineconeRecord> {

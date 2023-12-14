@@ -1,7 +1,8 @@
 import React from "react";
-import { chats, DrizzleChat } from "@/lib/db/schema";
+import { chats } from "@/lib/db/schema";
+import { Message } from "ai/react";
 
-export type Props = {
+export type ProviderProps = {
     children: React.ReactNode
 };
 
@@ -18,6 +19,8 @@ export type ChatPageProps = {
     }
 }
 
+export type DrizzleChat = typeof chats.$inferSelect;
+
 export type ChatSideBarProps = {
     chats: DrizzleChat[],
     chatId: number
@@ -25,4 +28,17 @@ export type ChatSideBarProps = {
 
 export type PDFViewerProps = {
     pdf_url: string
+}
+
+export type MessageListProps = {
+    messages: Message[];
+}
+
+export type Metadata = {
+    text: string,
+    pageNumber: number
+}
+
+export type ChatComponentProps = {
+    chatId: number
 }
