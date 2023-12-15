@@ -24,19 +24,18 @@ export async function POST(req: Request) {
 
         const fileKey = _chats[0].fileKey
         const lastMessage = messages[messages.length - 1];
-        const context = await getContext(lastMessage.content, fileKey)
+        const context = await getContext(lastMessage.content, fileKey);
 
         const prompt = {
             role: 'system',
-            content: `${content_a}
-                ${context}
-                ${content_b}`,
+            content: `${content_a}${context}${content_b}`,
         }
 
         const response = await openai.createChatCompletion({
             model: 'gpt-3.5-turbo',
             messages: {
-                prompt, ...messages.filter((message: Message) => message.role === 'user')
+                prompt,
+                ...messages.filter((message: Message) => message.role === 'user')
             },
             stream: true
         })

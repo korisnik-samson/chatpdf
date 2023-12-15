@@ -25,7 +25,7 @@ const ChatComponent = ({ chatId }: ChatComponentProps) => {
     }, [messages]);
 
     return (
-        <div className="relative max-h-screen overflow-scroll" id="message-container">
+        <div className="relative max-h-screen no-scrollbar overflow-scroll" id="message-container">
             {/* Header */}
             <div className="sticky top-0 inset-x-0 p-2 bg-white h-fit">
                 <h3 className="text-xl font-bold">Chat</h3>
