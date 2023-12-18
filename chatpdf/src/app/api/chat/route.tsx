@@ -28,7 +28,7 @@ export async function POST(req: Request) {
 
         const prompt = {
             role: 'system',
-            content: `${content_a}${context}${content_b}`,
+            content: `${content_a}\n${context}\n${content_b}`,
         }
 
         const response = await openai.createChatCompletion({

@@ -23,7 +23,7 @@ const ChatPage = async ({ params: { chatId } }: ChatPageProps) => {
     return (
         <div className="flex max-h-screen no-scrollbar overflow-scroll">
             <div className="flex w-full max-h-screen no-scrollbar overflow-scroll">
-                {/* chat sidebar*/}
+                {/* chat sidebar */}
                 <div className="flex-[1] max-w-xs">
                      <ChatSideBar chats={_chats} chatId={parseInt(chatId)} />
                 </div>
@@ -33,7 +33,7 @@ const ChatPage = async ({ params: { chatId } }: ChatPageProps) => {
                      <PDFViewer pdf_url={currentChat?.pdfUrl || ''} />
                 </div>
 
-                {/* chat component*/}
+                {/* chat component */}
                 <div className="flex-[3] border-l-4 border-l-slate-200">
                      <ChatComponent chatId={parseInt(chatId)} />
                 </div>

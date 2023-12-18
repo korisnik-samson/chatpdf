@@ -7,7 +7,7 @@ export function cn(...inputs: ClassValue[]) {
 
 export function convertToASCII(inputString: string) {
     // remove non ascii characters
-    return inputString.replace(/[^\x00-\x7F]/g, "");
+    return inputString.replace(/[^\x00-\x7F]+/g, "");
 }
 
 export function dateGenerate(): string {

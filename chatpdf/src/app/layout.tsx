@@ -6,6 +6,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import Providers from "@/components/Providers";
 import { Toaster } from "react-hot-toast";
 import { neobrutalism } from "@clerk/themes";
+import { ThemeProvider } from "@/components/theme-provider";
 
 const inter = Inter({ subsets: ['latin'] })
 

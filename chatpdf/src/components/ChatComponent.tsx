@@ -32,7 +32,7 @@ const ChatComponent = ({ chatId }: ChatComponentProps) => {
             </div>
 
             {/* message list */}
-            <MessageList messages={messages}/>
+            <MessageList messages={messages} />
 
             <form onSubmit={handleSubmit} className="sticky bottom-0 inset-x-0 px-2 py-4 bg-white">
                 <div className="flex">

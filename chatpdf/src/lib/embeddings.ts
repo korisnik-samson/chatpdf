@@ -4,7 +4,7 @@ const config = new Configuration({
     apiKey: process.env.NEXT_PUBLIC_OPEN_API_KEY
 });
 
-const openai: OpenAIApi = new OpenAIApi(config);
+const openai = new OpenAIApi(config);
 
 export async function getEmbeddings(text: string): Promise<number[]> {
     try {

@@ -34,13 +34,12 @@ export async function loadS3IntoPinecone(fileKey: string) {
     
     // 4. upload to pinecone
     const client = await getPineconeClient();
-    const pineconeIndex = client.Index('chatpdf');
-    const namespace = convertToASCII(fileKey);
+    const pineconeIndex = client.index('chatpdf');
+    const namespace = pineconeIndex.namespace(convertToASCII(fileKey));
 
     console.log("inserting vectors into pinecone");
     //await namespace.upsert(vectors);
-    // @ts-ignore
-    PineconeUtils.chunkedUpsert(pineconeIndex, vectors, namespace, 10)
+    await namespace.upsert(vectors)
     
     return documents[0];
 }
